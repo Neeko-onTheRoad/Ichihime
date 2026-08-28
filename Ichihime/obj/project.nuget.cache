@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "aK8W9TVd1m8=",
+  "success": true,
+  "projectFilePath": "Z:\\UNITY\\Ichihime\\Ichihime\\Ichihime.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gamdr\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.11\\microsoft.windowsdesktop.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\gamdr\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.11\\microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\gamdr\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.11\\microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\gamdr\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.11\\microsoft.netcore.app.host.win-x64.9.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}

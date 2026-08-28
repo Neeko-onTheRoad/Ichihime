@@ -1,0 +1,5 @@
+TOKEN.ini
+*.vs
+*.git
+./Ichihime/bin/*
+./Ichihime/obj/*
