@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NetCord.Hosting.Gateway;
+using NetCord.Hosting.Services;
+using NetCord.Hosting.Services.ApplicationCommands;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ichihime;
 
@@ -7,24 +11,38 @@ public class IchihimeBot {
 
 	//======================================================================| Fields
 
-	private readonly HostApplicationBuilder _builder;
-	private readonly IHost _host;
+	private IHost _host;
+
+	private SpreadsheetClient _spreadsheetClient;
+	private StringTables _stringTables;
 
 	//======================================================================| Constructors
 
 	public IchihimeBot() {
-
-		_builder = Host.CreateApplicationBuilder();
-		_builder.Services.AddDiscordGateway();
-
-		_host = _builder.Build();
-
+		Initialize();
 	}
 
 	//======================================================================| Methods
 
+	[MemberNotNull(nameof(_host))]
+	[MemberNotNull(nameof(_spreadsheetClient))]
+	[MemberNotNull(nameof(_stringTables))]
 	public void Initialize() {
-		
+
+		var builder = Host.CreateApplicationBuilder();
+
+		_spreadsheetClient = new("./credential.json");
+		_stringTables = new(_spreadsheetClient);
+
+		builder.Services
+			.AddSingleton(_ => _stringTables)
+			.AddDiscordGateway()
+			.AddApplicationCommands();
+
+		_host = builder.Build();
+
+		_host.AddModules(typeof(Program).Assembly);
+
 	}
 
 	public async Task Run() {

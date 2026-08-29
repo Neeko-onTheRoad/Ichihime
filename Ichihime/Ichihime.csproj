@@ -20,6 +20,8 @@
 		<None Update="credential.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<PackageReference Include="NetCord.Hosting.Services" Version="1.0.0-beta.18" />
+		<PackageReference Include="NetCord.Services" Version="1.0.0-beta.18" />
 	</ItemGroup>
 
 </Project>
