@@ -1,20 +1,29 @@
-﻿using NetCord.Services.ApplicationCommands;
+﻿using NetCord.Gateway;
+using NetCord.Services.ApplicationCommands;
 
 namespace Ichihime;
 
-public abstract class SlashCommand(StringTables stringTables) : ApplicationCommandModule<ApplicationCommandContext> {
-
-	//======================================================================| Fields
-
-	protected StringTables _stringTables = stringTables;
+public abstract class SlashCommand(StringTables stringTables, Properties properties) : ApplicationCommandModule<ApplicationCommandContext> {
 
 	//======================================================================| Properties
 
 	protected abstract string CommandName { get; }
 
-	protected StringTable StringTableOfUserLocale => _stringTables[Context.User.Locale ?? "en-US"];
-	protected StringTable StringTableOfGuildLocale => _stringTables[Context.Guild?.PreferredLocale ?? "en-US"];
+	protected StringTable StringTableOfUserLocale => stringTables[Context.Interaction.UserLocale];
+	protected StringTable StringTableOfGuildLocale => stringTables[Context.Interaction.GuildLocale
+		?? Context.Interaction.UserLocale
+	];
 
-	protected SlashCommandLocalizeData LocalizeData => StringTableOfUserLocale.SlashCommands[CommandName];
+	//======================================================================| Methods
+
+	protected string ClampWithDiscordMessageLengthLimit(string message) {
+		
+		var countLimit = int.Parse(properties["MessageLengthLimit"]);
+
+		if (message.Length <= countLimit) return message;
+
+		return StringTableOfGuildLocale["Global.MessageLimitOver"]
+			.Replace("{count}", countLimit.ToString());
+	}
 
 }

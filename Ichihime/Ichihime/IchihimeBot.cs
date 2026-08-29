@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using NetCord.Hosting.Gateway;
 using NetCord.Hosting.Services;
 using NetCord.Hosting.Services.ApplicationCommands;
+using NetCord.Services.ApplicationCommands;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Ichihime;
@@ -16,6 +17,10 @@ public class IchihimeBot {
 	private SpreadsheetClient _spreadsheetClient;
 	private StringTables _stringTables;
 
+	//======================================================================| Properties
+
+	public Properties Properties { get; private set; }
+
 	//======================================================================| Constructors
 
 	public IchihimeBot() {
@@ -27,26 +32,36 @@ public class IchihimeBot {
 	[MemberNotNull(nameof(_host))]
 	[MemberNotNull(nameof(_spreadsheetClient))]
 	[MemberNotNull(nameof(_stringTables))]
+	[MemberNotNull(nameof(Properties))]
 	public void Initialize() {
 
 		var builder = Host.CreateApplicationBuilder();
 
 		_spreadsheetClient = new("./credential.json");
 		_stringTables = new(_spreadsheetClient);
+		Properties = new(_spreadsheetClient);
 
 		builder.Services
-			.AddSingleton(_ => _stringTables)
+			.AddSingleton(_spreadsheetClient)
+			.AddSingleton(_stringTables)
+			.AddSingleton(Properties)
 			.AddDiscordGateway()
-			.AddApplicationCommands();
+			.AddApplicationCommands(options => 
+				options.LocalizationsProvider = new JsonLocalizationsProvider()
+			);
 
 		_host = builder.Build();
-
 		_host.AddModules(typeof(Program).Assembly);
 
 	}
 
-	public async Task Run() {
-		await _host.RunAsync();
+	public async Task Start() {
+		await _host.StartAsync();
+	}
+
+	public async Task Stop() {
+		await _host.StopAsync();
+		_host.Dispose();
 	}
 
 }

@@ -2,7 +2,7 @@
 
 namespace Ichihime;
 
-public class PingSlashCommand(StringTables stringTables) : SlashCommand(stringTables) {
+public class PingSlashCommand(StringTables stringTables, Properties properties) : SlashCommand(stringTables, properties) {
 
 	//======================================================================| Properties
 
@@ -17,8 +17,8 @@ public class PingSlashCommand(StringTables stringTables) : SlashCommand(stringTa
 		SplitCharacter splitCharacter = SplitCharacter.Space
 	) {
 		
-		var message = alternativeMessage ?? LocalizeData
-			.Contexts["DefaultMessage"];
+		var message = alternativeMessage
+			?? StringTableOfGuildLocale["Ping.DefaultMessage"];
 
 		var messages = Enumerable.Repeat(message, repetitionCount);
 		var splitter = splitCharacter switch {
@@ -27,7 +27,8 @@ public class PingSlashCommand(StringTables stringTables) : SlashCommand(stringTa
 			SplitCharacter.Space or _ => " "
 		};
 
-		return string.Join(splitter, messages);
+		var result = string.Join(splitter, messages);
+		return ClampWithDiscordMessageLengthLimit(result);
 
 	}
 

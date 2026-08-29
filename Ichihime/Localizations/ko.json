@@ -1,0 +1,22 @@
+{
+    "commands": {
+        "ping": {
+            "name": "핑",
+            "description": "Check the bot's response.",
+            "parameters": {
+                "repetition_count": {
+                    "name": "반복횟수",
+                    "description": "반복할 횟수를 정합니다."
+                },
+                "alternative_message": {
+                    "name": "대체메시지",
+                    "description": "\"퐁냐!\" 대신 다른 문자를 보냅니다."
+                },
+                "split_character": {
+                    "name": "분할문자",
+                    "description": "메시지를 분할하는 데 사용할 문자를 정합니다."
+                }
+            }
+        }
+    }
+}

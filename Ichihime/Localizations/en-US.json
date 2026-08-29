@@ -1,0 +1,19 @@
+{
+    "commands": {
+        "ping": {
+            "name": "ping",
+            "description": "Check the bot's response.",
+            "parameters": {
+                "repetition_count": {
+                    "description": "The number of times to repeat."
+                },
+                "alternative_message": {
+                    "description": "An alternative message to send instead of \"Pong Nya!\"."
+                },
+                "split_character": {
+                    "description": "The character to use for splitting the message."
+                }
+            }
+        }
+    }
+}
