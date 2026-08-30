@@ -1,0 +1,29 @@
+{
+    "commands": {
+        "ping": {
+            "name": "ピン",
+            "description": "ボットの応答を確認します。",
+            "parameters": {
+                "repetition_count": {
+                    "name": "繰り返し回数",
+                    "description": "繰り返す回数を指定します。"
+                },
+                "alternative_message": {
+                    "name": "代替メッセージ",
+                    "description": "\"ポンにゃ！\" の代わりに送信する代替メッセージを指定します。"
+                },
+                "split_character": {
+                    "name": "分割文字",
+                    "description": "メッセージを分割する際に使用する文字を指定します。"
+                }
+            }
+        }
+    },
+    "enums": {
+        "Ichihime.PingSlashCommand+SplitCharacter": {
+            "NewLine": "改行",
+            "Space": "スペース",
+            "Comma": "カンマ"
+        }
+    }
+}

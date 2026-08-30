@@ -2,7 +2,7 @@
     "commands": {
         "ping": {
             "name": "핑",
-            "description": "Check the bot's response.",
+            "description": "봇의 반응을 확인합니다.",
             "parameters": {
                 "repetition_count": {
                     "name": "반복횟수",
@@ -17,6 +17,13 @@
                     "description": "메시지를 분할하는 데 사용할 문자를 정합니다."
                 }
             }
+        }
+    },
+    "enums": {
+        "Ichihime.PingSlashCommand+SplitCharacter": {
+            "NewLine": "줄바꿈",
+            "Space": "공백",
+            "Comma": "쉼표"
         }
     }
 }

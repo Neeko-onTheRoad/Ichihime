@@ -15,5 +15,12 @@
                 }
             }
         }
+    },
+    "enums": {
+        "Ichihime.PingSlashCommand+SplitCharacter": {
+            "NewLine": "New Line",
+            "Space": "Space",
+            "Comma": "Comma"
+        }
     }
 }

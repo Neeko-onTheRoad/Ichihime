@@ -1,12 +1,9 @@
-﻿using NetCord.Services.ApplicationCommands;
+﻿using Ichihime.Localizing;
+using NetCord.Services.ApplicationCommands;
 
-namespace Ichihime;
+namespace Ichihime.SlashCommand;
 
 public class PingSlashCommand(StringTables stringTables, Properties properties) : SlashCommand(stringTables, properties) {
-
-	//======================================================================| Properties
-
-	protected override string CommandName => "ping";
 
 	//======================================================================| Methods
 
@@ -33,7 +30,7 @@ public class PingSlashCommand(StringTables stringTables, Properties properties) 
 	}
 
 	//======================================================================| Types
-
+	
 	public enum SplitCharacter {
 		NewLine,
 		Comma,

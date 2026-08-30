@@ -3,8 +3,6 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 
-namespace Ichihime;
-
 public class SpreadsheetClient {
 
 	//======================================================================| Fields

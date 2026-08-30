@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Ichihime.Localizing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetCord.Hosting.Gateway;
 using NetCord.Hosting.Services;
@@ -13,6 +14,7 @@ public class IchihimeBot {
 	//======================================================================| Fields
 
 	private IHost _host;
+	private IHostApplicationLifetime _hostLifetime;
 
 	private SpreadsheetClient _spreadsheetClient;
 	private StringTables _stringTables;
@@ -20,6 +22,7 @@ public class IchihimeBot {
 	//======================================================================| Properties
 
 	public Properties Properties { get; private set; }
+	public bool IsRunning { get; private set; }
 
 	//======================================================================| Constructors
 
@@ -29,10 +32,13 @@ public class IchihimeBot {
 
 	//======================================================================| Methods
 
-	[MemberNotNull(nameof(_host))]
-	[MemberNotNull(nameof(_spreadsheetClient))]
-	[MemberNotNull(nameof(_stringTables))]
-	[MemberNotNull(nameof(Properties))]
+	[MemberNotNull(
+		nameof(_host),
+		nameof(_hostLifetime),
+		nameof(_spreadsheetClient),
+		nameof(_stringTables),
+		nameof(Properties)
+	)]
 	public void Initialize() {
 
 		var builder = Host.CreateApplicationBuilder();
@@ -52,6 +58,21 @@ public class IchihimeBot {
 
 		_host = builder.Build();
 		_host.AddModules(typeof(Program).Assembly);
+		_hostLifetime = _host.Services.GetRequiredService<IHostApplicationLifetime>();
+		
+		_hostLifetime.ApplicationStarted.Register(() => {
+			IsRunning = true;
+			Console.WriteLine("Application Started.");
+		});
+
+		_hostLifetime.ApplicationStopping.Register(() => {
+			IsRunning = false;
+			Console.WriteLine("Application Stopping...");
+		});
+
+		_hostLifetime.ApplicationStopped.Register(() => 
+			Console.WriteLine("Application Stopped.")
+		);
 
 	}
 

@@ -1,13 +1,11 @@
-﻿using NetCord.Gateway;
+﻿using Ichihime.Localizing;
 using NetCord.Services.ApplicationCommands;
 
-namespace Ichihime;
+namespace Ichihime.SlashCommand;
 
 public abstract class SlashCommand(StringTables stringTables, Properties properties) : ApplicationCommandModule<ApplicationCommandContext> {
 
 	//======================================================================| Properties
-
-	protected abstract string CommandName { get; }
 
 	protected StringTable StringTableOfUserLocale => stringTables[Context.Interaction.UserLocale];
 	protected StringTable StringTableOfGuildLocale => stringTables[Context.Interaction.GuildLocale

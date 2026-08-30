@@ -8,10 +8,15 @@ public static class Program {
 
 		await _ichihime.Start();
 
-		while (true) {
+		while (_ichihime.IsRunning) {
 
-			if (!Console.KeyAvailable) continue;
-			if (Console.ReadKey(true).Key != ConsoleKey.F5) continue;
+			if (!Console.KeyAvailable) {
+				await Task.Delay(10);
+				continue;
+			}
+
+			if (Console.ReadKey(true).Key != ConsoleKey.F5)
+				continue;
 
 			Console.Clear();
 			Console.WriteLine("Restarting...");
@@ -23,6 +28,8 @@ public static class Program {
 			Console.WriteLine("Restarted.");
 
 		}
+
+		await _ichihime.Stop();
 
 	}
 

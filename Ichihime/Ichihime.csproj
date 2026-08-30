@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Ichihime\LocalizeSystem\" />
+	  <Folder Include="Ichihime\LocalizingSystem\" />
 	</ItemGroup>
 
 </Project>
