@@ -1,9 +1,16 @@
 ﻿using Ichihime.Localizing;
+using Ichihime.Mahjong;
+using Ichihime.ResourceSystem;
+using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;
 
 namespace Ichihime.SlashCommand;
 
-public class PingSlashCommand(StringTables stringTables, Properties properties) : SlashCommand(stringTables, properties) {
+public class TestCommands(
+	StringTables stringTables,
+	Properties properties,
+	IHaiPictureProvider pictureProvider
+) : SlashCommand(stringTables, properties) {
 
 	//======================================================================| Methods
 
@@ -26,6 +33,23 @@ public class PingSlashCommand(StringTables stringTables, Properties properties) 
 
 		var result = string.Join(splitter, messages);
 		return ClampWithDiscordMessageLengthLimit(result);
+
+	}
+
+	[SlashCommand("test_image", "Check the bot's image generation.")]
+	public InteractionMessageProperties TestImage(string haiName) {
+		
+		var properties = new InteractionMessageProperties();
+		var hai = Hai.AllKinds.FirstOrDefault(h => h.DisplayName == haiName);
+
+		if (hai is null) {
+			properties.Content = StringTableOfGuildLocale["TestImage.HaiNotFound"];
+			return properties;
+		}
+
+		var stream = pictureProvider.GetPicture(hai);
+
+
 
 	}
 

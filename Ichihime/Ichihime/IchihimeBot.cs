@@ -24,6 +24,8 @@ public class IchihimeBot {
 	public Properties Properties { get; private set; }
 	public bool IsRunning { get; private set; }
 
+	public Action<IServiceCollection>? AttacheDI { get; set; }
+
 	//======================================================================| Constructors
 
 	public IchihimeBot() {
@@ -56,6 +58,8 @@ public class IchihimeBot {
 				options.LocalizationsProvider = new JsonLocalizationsProvider()
 			);
 
+		AttacheDI?.Invoke(builder.Services);
+
 		_host = builder.Build();
 		_host.AddModules(typeof(Program).Assembly);
 		_hostLifetime = _host.Services.GetRequiredService<IHostApplicationLifetime>();
@@ -65,14 +69,14 @@ public class IchihimeBot {
 			Console.WriteLine("Application Started.");
 		});
 
-		_hostLifetime.ApplicationStopping.Register(() => {
-			IsRunning = false;
-			Console.WriteLine("Application Stopping...");
-		});
-
-		_hostLifetime.ApplicationStopped.Register(() => 
-			Console.WriteLine("Application Stopped.")
+		_hostLifetime.ApplicationStopping.Register(() => 
+			Console.WriteLine("Application Stopping...")
 		);
+
+		_hostLifetime.ApplicationStopped.Register(() => {
+			IsRunning = false;
+			Console.WriteLine("Application Stopped.");
+		});
 
 	}
 
@@ -83,6 +87,10 @@ public class IchihimeBot {
 	public async Task Stop() {
 		await _host.StopAsync();
 		_host.Dispose();
+	}
+
+	public async Task WaitForShutdown() {
+		await _host.WaitForShutdownAsync();
 	}
 
 }

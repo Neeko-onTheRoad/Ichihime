@@ -9,7 +9,14 @@ public abstract class Sūpai : Hai {
 
 	//======================================================================| Properties
 
-	public override bool IsRōtōhai => Number is 1 or 9;
+	public sealed override bool IsRōtōhai => Number is 1 or 9;
+	public sealed override string DisplayName => $"{Number}{IroName}{(IsAkadora ? "*" : "")}";
+
+	protected abstract string IroName { get; }
+
+	public static IEnumerable<Sūpai> AllKindOfSūpai { get; } = [
+		..Manzuhai.AllKindsOfManzuhai, ..Pinzuhai.AllKindsOfPinzuhai, ..Sōzuhai.AllKindsOfSōzuhai
+	];
 
 	//======================================================================| Constructors
 
@@ -17,7 +24,7 @@ public abstract class Sūpai : Hai {
 		
 		ArgumentOutOfRangeException.ThrowIfLessThan(number, 1, nameof(number));
 		ArgumentOutOfRangeException.ThrowIfGreaterThan(number, 9, nameof(number));
-
+		
 		if (isAkadora) {
 			ArgumentOutOfRangeException.ThrowIfNotEqual(number, 5, nameof(number));
 		}
@@ -32,5 +39,9 @@ public abstract class Sūpai : Hai {
 	public override bool IsSameKindWith(Hai other) =>
 		GetType() == other.GetType() &&
 		Number == (other as Sūpai)!.Number;
+
+	protected static IEnumerable<T> GetAllKinds<T>(Func<int, bool, T> factory) where T : Sūpai => [
+		factory(5, true), ..Enumerable.Range(1, 9).Select(i => factory(i, false))
+	];
 
 }

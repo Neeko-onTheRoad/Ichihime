@@ -1,8 +1,11 @@
 ﻿namespace Ichihime.Mahjong;
 
-public class Manzuhai(int number, bool isAkadora = false) : Sūpai(number, isAkadora) {
+public sealed class Manzuhai(int number, bool isAkadora = false) : Sūpai(number, isAkadora) {
 
-	public override string DisplayName => $"{Number}萬{(IsAkadora ? "*" : "")}";
+	protected override string IroName => "Man";
 	public override Hai NextHai => new Manzuhai(Number % 9 + 1);
+
+	public static IEnumerable<Manzuhai> AllKindsOfManzuhai { get; } =
+		GetAllKinds((number, isAkadora) => new Manzuhai(number, isAkadora));
 
 }

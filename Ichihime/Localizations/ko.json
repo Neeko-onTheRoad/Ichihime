@@ -20,7 +20,7 @@
         }
     },
     "enums": {
-        "Ichihime.PingSlashCommand+SplitCharacter": {
+        "Ichihime.SlashCommand.TestCommands+SplitCharacter": {
             "NewLine": "줄바꿈",
             "Space": "공백",
             "Comma": "쉼표"
