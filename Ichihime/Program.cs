@@ -7,12 +7,7 @@ public static class Program {
 
 	public static async Task Main() {
 
-		IchihimeBot ichihime = new() {
-			AttacheDI = service => service
-				.AddSingleton<IHaiPictureProvider>(
-					new HaiPictureSvgFileProvider(Path.Combine("Resources", "HaiImageSvg"))
-				)
-		};
+		IchihimeBot ichihime = new();
 
 		await ichihime.Start();
 		await ichihime.WaitForShutdown();

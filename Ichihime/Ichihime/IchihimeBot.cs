@@ -1,4 +1,5 @@
 ﻿using Ichihime.Localizing;
+using Ichihime.ResourceSystem;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetCord.Hosting.Gateway;
@@ -53,12 +54,13 @@ public class IchihimeBot {
 			.AddSingleton(_spreadsheetClient)
 			.AddSingleton(_stringTables)
 			.AddSingleton(Properties)
+			.AddSingleton<IHaiPictureProvider>(
+				new HaiPictureSvgFileProvider(Path.Combine("Resources", "HaiImageSvg"))
+			)
 			.AddDiscordGateway()
 			.AddApplicationCommands(options => 
 				options.LocalizationsProvider = new JsonLocalizationsProvider()
 			);
-
-		AttacheDI?.Invoke(builder.Services);
 
 		_host = builder.Build();
 		_host.AddModules(typeof(Program).Assembly);

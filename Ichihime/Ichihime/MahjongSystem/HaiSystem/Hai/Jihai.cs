@@ -1,18 +1,20 @@
-﻿namespace Ichihime.Mahjong;
+﻿using Ichihime.Localizing;
+
+namespace Ichihime.Mahjong;
 
 public abstract class Jihai : Hai {
 
 	//======================================================================| Properties
 
 	public override bool IsYaochūhai => true;
-	public override string DisplayName => GetType().Name;
 
-	public static IEnumerable<Jihai> AllKindsOfJihai { get; } = [
+	public static IEnumerable<Jihai> AllKindsOfJihai => [
 		..Fonpai.AllKindsOfFonapi, ..Sangenpai.AllKindsOfSangenpai
 	];
 
 	//======================================================================| Methods
 
-	public override bool IsSameKindWith(Hai other) => GetType() == other.GetType();
+	public override bool IsSameKindWith(Hai? other) => GetType() == other?.GetType();
+	public override string DisplayName(StringTable stringTable) => stringTable[$"Mahjong.Jihai.{GetType().Name}"];
 
 }

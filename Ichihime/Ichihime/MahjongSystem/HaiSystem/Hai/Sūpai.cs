@@ -1,4 +1,6 @@
-﻿namespace Ichihime.Mahjong;
+﻿using Ichihime.Localizing;
+
+namespace Ichihime.Mahjong;
 
 public abstract class Sūpai : Hai {
 
@@ -10,7 +12,6 @@ public abstract class Sūpai : Hai {
 	//======================================================================| Properties
 
 	public sealed override bool IsRōtōhai => Number is 1 or 9;
-	public sealed override string DisplayName => $"{Number}{IroName}{(IsAkadora ? "*" : "")}";
 
 	protected abstract string IroName { get; }
 
@@ -36,12 +37,18 @@ public abstract class Sūpai : Hai {
 
 	//======================================================================| Methods
 
-	public override bool IsSameKindWith(Hai other) =>
-		GetType() == other.GetType() &&
+	public override bool IsSameKindWith(Hai? other) =>
+		GetType() == other?.GetType() &&
 		Number == (other as Sūpai)!.Number;
 
 	protected static IEnumerable<T> GetAllKinds<T>(Func<int, bool, T> factory) where T : Sūpai => [
 		factory(5, true), ..Enumerable.Range(1, 9).Select(i => factory(i, false))
 	];
+
+	public override string DisplayName(StringTable stringTable) =>
+		stringTable[$"Mahjong.Sūpai.{GetType().Name}"]
+			.Replace("{number}", Number.ToString())
+			.Replace("{aka}", IsAkadora ? stringTable["Mahjong.Akadora"] : "")
+			.Trim();
 
 }

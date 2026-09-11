@@ -8,7 +8,7 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 
 	//======================================================================| Fields
 
-	private Dictionary<string, SKPicture> _pictures = [];
+	private readonly Dictionary<Hai, SKPicture> _pictures = [ with(new HaiKindEqualityComparer()) ];
 
 	//======================================================================| Propeties
 
@@ -42,15 +42,15 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 
 				Sūpai sūpai => $"{sūpai switch {
 
-					Manzuhai man => "Man",
-					Pinzuhai pin => "Pin",
-					Sōzuhai man => "Sou",
+					Manzuhai => "Man",
+					Pinzuhai => "Pin",
+					Sōzuhai => "Sou",
 
-					_ => string.Empty
+					_ => throw new NotSupportedException()
 
 				}}{sūpai.Number}{(sūpai.IsAkadora ? "-Dora" : "")}",
 
-				_ => string.Empty
+				_ => throw new NotSupportedException()
 
 			} + ".svg"));
 
@@ -59,7 +59,7 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 			canvas.DrawPicture(frontPicture);
 			canvas.DrawPicture(svg.Picture);
 
-			_pictures[hai.DisplayName] = recorder.EndRecording();
+			_pictures[hai] = recorder.EndRecording();
 
 		}
 
@@ -67,6 +67,6 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 
 	//======================================================================| Methods
 
-	public SKPicture GetPicture(Hai hai) => _pictures[hai.DisplayName];
+	public SKPicture GetPicture(Hai hai) => _pictures[hai];
 
 }

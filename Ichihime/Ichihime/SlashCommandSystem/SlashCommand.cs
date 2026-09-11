@@ -22,6 +22,7 @@ public abstract class SlashCommand(StringTables stringTables, Properties propert
 
 		return StringTableOfGuildLocale["Global.MessageLimitOver"]
 			.Replace("{count}", countLimit.ToString());
+
 	}
 
 }

@@ -42,7 +42,7 @@
 		else {
 			minimumSet = _derivedConcreteTypes
 				.Where(pair => pair.Key.IsAssignableTo(typeof(T)))
-				.MinBy(pair => pair.Value.Count)
+				.MinByOrDefault(pair => pair.Value.Count, default)
 				.Value ?? _types;
 		}
 

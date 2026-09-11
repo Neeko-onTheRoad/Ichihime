@@ -3,6 +3,7 @@ using Ichihime.Mahjong;
 using Ichihime.ResourceSystem;
 using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;
+using SkiaSharp;
 
 namespace Ichihime.SlashCommand;
 
@@ -40,16 +41,44 @@ public class TestCommands(
 	public InteractionMessageProperties TestImage(string haiName) {
 		
 		var properties = new InteractionMessageProperties();
-		var hai = Hai.AllKinds.FirstOrDefault(h => h.DisplayName == haiName);
+		var hai = Hai.AllKinds.FirstOrDefault(h => h.DisplayName(StringTableOfGuildLocale) == haiName);
 
 		if (hai is null) {
-			properties.Content = StringTableOfGuildLocale["TestImage.HaiNotFound"];
+			properties.Content = StringTableOfGuildLocale["TestImage.HaiNotFound"]
+				.Replace("{name}", haiName);
 			return properties;
 		}
 
-		var stream = pictureProvider.GetPicture(hai);
+		var picture = pictureProvider.GetPicture(hai);
+		var bounds = picture.CullRect;
 
+		var width = (int)MathF.Ceiling(bounds.Width);
+		var height = (int)MathF.Ceiling(bounds.Height);
 
+		using var surface = SKSurface.Create(new SKImageInfo(
+			width, height, SKColorType.Rgba8888, SKAlphaType.Premul
+		));
+
+		var canvas = surface.Canvas;
+
+		canvas.Clear(SKColors.Transparent);
+		canvas.Translate(-bounds.Left, -bounds.Top);
+		canvas.DrawPicture(picture);
+		canvas.Flush();
+
+		using var image = surface.Snapshot();
+		using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+
+		var stream = new MemoryStream();
+		data.SaveTo(stream);
+		stream.Position = 0;
+
+		return new InteractionMessageProperties()
+			.AddAttachments(new AttachmentProperties("hai.png", stream))
+			.AddEmbeds(
+				new EmbedProperties()
+					.WithImage("attachment://hai.png")
+			);
 
 	}
 

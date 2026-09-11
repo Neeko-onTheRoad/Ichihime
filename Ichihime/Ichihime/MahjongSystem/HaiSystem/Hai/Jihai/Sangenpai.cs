@@ -2,7 +2,7 @@
 
 public abstract class Sangenpai : Jihai {
 
-	public static IEnumerable<Sangenpai> AllKindsOfSangenpai { get; } = RuntimeTypeCatcher
+	public static IEnumerable<Sangenpai> AllKindsOfSangenpai => RuntimeTypeCatcher
 		.GetDerivedConcreteTypes<Sangenpai>()
 		.Select(Activator.CreateInstance)
 		.Cast<Sangenpai>();
