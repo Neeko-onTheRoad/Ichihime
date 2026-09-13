@@ -1,29 +1,39 @@
 {
-    "commands": {
-        "ping": {
-            "name": "핑",
-            "description": "봇의 반응을 확인합니다.",
-            "parameters": {
-                "repetition_count": {
-                    "name": "반복횟수",
-                    "description": "반복할 횟수를 정합니다."
-                },
-                "alternative_message": {
-                    "name": "대체메시지",
-                    "description": "\"퐁냐!\" 대신 다른 문자를 보냅니다."
-                },
-                "split_character": {
-                    "name": "분할문자",
-                    "description": "메시지를 분할하는 데 사용할 문자를 정합니다."
-                }
-            }
-        }
-    },
-    "enums": {
-        "Ichihime.SlashCommand.TestCommands+SplitCharacter": {
-            "NewLine": "줄바꿈",
-            "Space": "공백",
-            "Comma": "쉼표"
-        }
-    }
+		"commands": {
+				"ping": {
+						"name": "핑",
+						"description": "봇의 반응을 확인합니다.",
+						"parameters": {
+								"repetition_count": {
+										"name": "반복횟수",
+										"description": "반복할 횟수를 정합니다."
+								},
+								"alternative_message": {
+										"name": "대체메시지",
+										"description": "\"퐁냐!\" 대신 다른 문자를 보냅니다."
+								},
+								"split_character": {
+										"name": "분할문자",
+										"description": "메시지를 분할하는 데 사용할 문자를 정합니다."
+								}
+						}
+				},
+				"image_test": {
+						"name": "이미지테스트",
+						"description": "봇의 이미지 생성을 확인합니다. (콤마로 분할)",
+						"parameters": {
+								"hai_names": {
+										"name": "패이름",
+										"description": "출력할 패의 이름"
+								}
+						}
+				}
+		},
+		"enums": {
+				"Ichihime.SlashCommand.PingSlashCommand+SplitCharacter": {
+						"NewLine": "줄바꿈",
+						"Space": "공백",
+						"Comma": "쉼표"
+				}
+		}
 }

@@ -1,26 +1,33 @@
 {
-    "commands": {
-        "ping": {
-            "name": "ping",
-            "description": "Check the bot's response.",
-            "parameters": {
-                "repetition_count": {
-                    "description": "The number of times to repeat."
-                },
-                "alternative_message": {
-                    "description": "An alternative message to send instead of \"Pong Nya!\"."
-                },
-                "split_character": {
-                    "description": "The character to use for splitting the message."
-                }
-            }
-        }
-    },
-    "enums": {
-        "Ichihime.PingSlashCommand+SplitCharacter": {
-            "NewLine": "New Line",
-            "Space": "Space",
-            "Comma": "Comma"
-        }
-    }
+		"commands": {
+				"ping": {
+						"description": "Check the bot's response.",
+						"parameters": {
+								"repetition_count": {
+										"description": "The number of times to repeat."
+								},
+								"alternative_message": {
+										"description": "An alternative message to send instead of \"Pong Nya!\"."
+								},
+								"split_character": {
+										"description": "The character to use for splitting the message."
+								}
+						}
+				},
+				"image_test": {
+						"description": "Check the bot's image generation. (split with comma)",
+						"parameters": {
+								"hai_names": {
+										"description": "The name of hai."
+								}
+						}
+				}
+		},
+		"enums": {
+				"Ichihime.SlashCommand.PingSlashCommand+SplitCharacter": {
+						"NewLine": "New Line",
+						"Space": "Space",
+						"Comma": "Comma"
+				}
+		}
 }

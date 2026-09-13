@@ -29,8 +29,8 @@ public class IchihimeBot {
 
 	//======================================================================| Constructors
 
-	public IchihimeBot() {
-		Initialize();
+	public IchihimeBot(params ServiceInstance[] services) {
+		Initialize(services);
 	}
 
 	//======================================================================| Methods
@@ -42,7 +42,7 @@ public class IchihimeBot {
 		nameof(_stringTables),
 		nameof(Properties)
 	)]
-	public void Initialize() {
+	public void Initialize(ServiceInstance[] services) {
 
 		var builder = Host.CreateApplicationBuilder();
 
@@ -53,10 +53,13 @@ public class IchihimeBot {
 		builder.Services
 			.AddSingleton(_spreadsheetClient)
 			.AddSingleton(_stringTables)
-			.AddSingleton(Properties)
-			.AddSingleton<IHaiPictureProvider>(
-				new HaiPictureSvgFileProvider(Path.Combine("Resources", "HaiImageSvg"))
-			)
+			.AddSingleton(Properties);
+
+		foreach (var (type, instance) in services) {
+			builder.Services.AddSingleton(type, instance);
+		}
+
+		builder.Services
 			.AddDiscordGateway()
 			.AddApplicationCommands(options => 
 				options.LocalizationsProvider = new JsonLocalizationsProvider()

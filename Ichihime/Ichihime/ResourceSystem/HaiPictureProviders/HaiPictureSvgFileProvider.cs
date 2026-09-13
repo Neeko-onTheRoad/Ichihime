@@ -1,6 +1,5 @@
 ﻿using Ichihime.Mahjong;
 using SkiaSharp;
-using Svg.Skia;
 
 namespace Ichihime.ResourceSystem;
 
@@ -13,51 +12,29 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 	//======================================================================| Propeties
 
 	public SKPicture RearPicture { get; }
+	public SKSize GeneralSize { get; }
 
 	//======================================================================| Constructors
 
-	public HaiPictureSvgFileProvider(string path) {
+	public HaiPictureSvgFileProvider(string path, float pictureScale) {
 
-		var frontSvg = new SKSvg();
-		frontSvg.Load(Path.Combine(path, "Front.svg"));
-		var frontPicture = frontSvg.Picture ?? throw new FileNotFoundException();
+		var frontPicture = SvgLoader.ToPicture(Path.Combine(path, "Front.svg"));
+		RearPicture = SvgLoader.ToPicture(Path.Combine(path, "Back.svg"));
 
-		var rearSvg = new SKSvg();
-		rearSvg.Load(Path.Combine(path, "Back.svg"));
-		RearPicture = rearSvg.Picture ?? throw new FileNotFoundException();
+		GeneralSize = RearPicture.CullRect.Size;
 		
 		var recorder = new SKPictureRecorder();
 
 		foreach (var hai in Hai.AllKinds) {
-		
-			var svg = new SKSvg();
-			svg.Load(Path.Combine(path, hai switch {
-
-				Ton => "Ton",
-				Nan => "Nan",
-				Shā => "Shaa",
-				Pē => "Pei",
-
-				Sangenpai => hai.GetType().Name,
-
-				Sūpai sūpai => $"{sūpai switch {
-
-					Manzuhai => "Man",
-					Pinzuhai => "Pin",
-					Sōzuhai => "Sou",
-
-					_ => throw new NotSupportedException()
-
-				}}{sūpai.Number}{(sūpai.IsAkadora ? "-Dora" : "")}",
-
-				_ => throw new NotSupportedException()
-
-			} + ".svg"));
 
 			var canvas = recorder.BeginRecording(frontPicture.CullRect);
+			var picture = SvgLoader.ToPicture(GetPath(path, hai));
+			var center = picture.CullRect;
+
+			var matrix = SKMatrix.CreateScale(pictureScale, pictureScale, center.MidX, center.MidY);
 
 			canvas.DrawPicture(frontPicture);
-			canvas.DrawPicture(svg.Picture);
+			canvas.DrawPicture(picture, matrix);
 
 			_pictures[hai] = recorder.EndRecording();
 
@@ -68,5 +45,28 @@ public class HaiPictureSvgFileProvider : IHaiPictureProvider {
 	//======================================================================| Methods
 
 	public SKPicture GetPicture(Hai hai) => _pictures[hai];
+
+	private static string GetPath(string path, Hai hai) => Path.Combine(path, hai switch {
+
+		Ton => "Ton",
+		Nan => "Nan",
+		Shā => "Shaa",
+		Pē => "Pei",
+
+		Sangenpai => hai.GetType().Name,
+
+		Sūpai sūpai => $"{sūpai switch {
+
+			Manzuhai => "Man",
+			Pinzuhai => "Pin",
+			Sōzuhai => "Sou",
+
+			_ => throw new NotSupportedException()
+
+		}}{sūpai.Number}{(sūpai.IsAkadora ? "-Dora" : "")}",
+
+		_ => throw new NotSupportedException()
+
+	} + ".svg");
 
 }
