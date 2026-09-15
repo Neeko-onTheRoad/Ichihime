@@ -17,7 +17,7 @@ public class PingSlashCommand(
 	) {
 		
 		var message = alternativeMessage
-			?? StringTableOfGuildLocale["Ping.DefaultMessage"];
+			?? StringTableOfGuildLocale["Command.Ping.DefaultMessage"];
 
 		var messages = Enumerable.Repeat(message, repetitionCount);
 		var splitter = splitCharacter switch {

@@ -1,39 +1,43 @@
 {
-		"commands": {
-				"ping": {
-						"name": "ピン",
-						"description": "ボットの応答を確認します。",
-						"parameters": {
-								"repetition_count": {
-										"name": "繰り返し回数",
-										"description": "繰り返す回数を指定します。"
-								},
-								"alternative_message": {
-										"name": "代替メッセージ",
-										"description": "\"ポンにゃ！\" の代わりに送信する代替メッセージを指定します。"
-								},
-								"split_character": {
-										"name": "分割文字",
-										"description": "メッセージを分割する際に使用する文字を指定します。"
-								}
-						}
+	"commands": {
+		"ping": {
+			"name": "ピン",
+			"description": "ボットの応答を確認します。",
+			"parameters": {
+				"repetition_count": {
+					"name": "繰り返し回数",
+					"description": "繰り返す回数を指定します。"
 				},
-				"image_test": {
-						"name": "イメージテスト",
-						"description": "ボットのイメージ生成を確認します。（コンマで分割）",
-						"parameters": {
-								"hai_names": {
-										"name": "牌の名前",
-										"description": "出力する牌の名前。"
-								}
-						}
+				"alternative_message": {
+					"name": "代替メッセージ",
+					"description": "\"ポンにゃ！\" の代わりに送信する代替メッセージを指定します。"
+				},
+				"split_character": {
+					"name": "分割文字",
+					"description": "メッセージを分割する際に使用する文字を指定します。"
 				}
+			}
 		},
-		"enums": {
-				"Ichihime.SlashCommand.PingSlashCommand+SplitCharacter": {
-						"NewLine": "改行",
-						"Space": "スペース",
-						"Comma": "カンマ"
+		"image_test": {
+			"name": "イメージテスト",
+			"description": "ボットのイメージ生成を確認します。",
+			"parameters": {
+				"hai_names": {
+					"name": "牌の名前",
+					"description": "出力する牌の名前。（コンマで分割）"
+				},
+				"card_per_line": {
+					"name": "1行あたりの牌",
+					"description": "1行に出力する牌の数。"
 				}
+			}
 		}
+	},
+	"enums": {
+		"Ichihime.SlashCommand.PingSlashCommand+SplitCharacter": {
+			"NewLine": "改行",
+			"Space": "スペース",
+			"Comma": "カンマ"
+		}
+	}
 }

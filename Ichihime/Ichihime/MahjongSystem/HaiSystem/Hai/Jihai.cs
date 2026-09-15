@@ -8,7 +8,7 @@ public abstract class Jihai : Hai {
 
 	public override bool IsYaochūhai => true;
 
-	public static IEnumerable<Jihai> AllKindsOfJihai => [
+	public static IReadOnlyList<Jihai> AllKindsOfJihai { get; } = [
 		..Fonpai.AllKindsOfFonapi, ..Sangenpai.AllKindsOfSangenpai
 	];
 

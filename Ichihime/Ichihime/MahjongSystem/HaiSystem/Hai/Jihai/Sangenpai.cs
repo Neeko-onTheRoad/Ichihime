@@ -2,10 +2,8 @@
 
 public abstract class Sangenpai : Jihai {
 
-	public static IEnumerable<Sangenpai> AllKindsOfSangenpai => RuntimeTypeCatcher
-		.GetDerivedConcreteTypes<Sangenpai>()
-		.Select(Activator.CreateInstance)
-		.Cast<Sangenpai>();
-
+	public static IReadOnlyList<Sangenpai> AllKindsOfSangenpai { get; } = [
+		new Haku(), new Hatsu(), new Chun()
+	];
 
 }

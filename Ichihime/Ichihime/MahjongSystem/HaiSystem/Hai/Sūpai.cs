@@ -15,7 +15,7 @@ public abstract class Sūpai : Hai {
 
 	protected abstract string IroName { get; }
 
-	public static IEnumerable<Sūpai> AllKindOfSūpai { get; } = [
+	public static IReadOnlyList<Sūpai> AllKindOfSūpai { get; } = [
 		..Manzuhai.AllKindsOfManzuhai, ..Pinzuhai.AllKindsOfPinzuhai, ..Sōzuhai.AllKindsOfSōzuhai
 	];
 
@@ -41,8 +41,10 @@ public abstract class Sūpai : Hai {
 		GetType() == other?.GetType() &&
 		Number == (other as Sūpai)!.Number;
 
-	protected static IEnumerable<T> GetAllKinds<T>(Func<int, bool, T> factory) where T : Sūpai => [
-		factory(5, true), ..Enumerable.Range(1, 9).Select(i => factory(i, false))
+	protected static IReadOnlyList<T> GetAllKinds<T>(Func<int, bool, T> factory) where T : Sūpai => [
+		..Enumerable.Range(1, 5).Select(i => factory(i, false)),
+		factory(5, true),
+		..Enumerable.Range(6, 4).Select(i => factory(i, false))
 	];
 
 	public override string DisplayName(StringTable stringTable) =>

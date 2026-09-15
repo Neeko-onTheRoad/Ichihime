@@ -16,48 +16,67 @@ public class ImageTestSlashCommand(
 	//======================================================================| Methods
 
 	[SlashCommand("image_test", "Check the bot's image generation. (split with ',')")]
-	public InteractionMessageProperties ImageTest(string haiNames) {
+	public InteractionMessageProperties ImageTest(string haiNames, int cardPerLine = 14) {
 
 		var properties = new InteractionMessageProperties();
+		
+		HashSet<string> notFound = [ with(StringComparer.OrdinalIgnoreCase) ];
+		List<Hai> hais = [];
 
-		HashSet<string> notFound = [with(StringComparer.OrdinalIgnoreCase)];
-		List<SKPicture> pictures = [];
-
-		int currentIndex = 0;
-
-		foreach (var haiName in haiNames.Split(',').Select(name => name.Trim())) {
-
+		if (haiNames.Trim().Equals("all", StringComparison.OrdinalIgnoreCase)) {
+			hais.AddRange(Hai.AllKinds);
+		}
+		else foreach (var name in haiNames.Split(',').Select(name => name.Trim())) {
+		
 			var hai = Hai.AllKinds
 				.FirstOrDefault(hai => hai
-					.DisplayName(StringTableOfGuildLocale)
-					.Equals(haiName, StringComparison.OrdinalIgnoreCase)
+					.DisplayName(StringTableOfUserLocale)
+					.Equals(name, StringComparison.OrdinalIgnoreCase)
 				);
 
 			if (hai is null) {
-				notFound.Add(haiName);
+				notFound.Add(name);
 				continue;
 			}
 
-			var xPosition = currentIndex * pictureProvider.GeneralSize.Width;
+			hais.Add(hai);
+		
+		}
+
+		int indexX = 0;
+		int indexY = 0;
+		List<SKPicture> pictures = [];
+
+		foreach (var hai in hais) {
+
+			var xPosition = indexX * pictureProvider.GeneralSize.Width;
+			var yPosition = indexY * pictureProvider.GeneralSize.Height;
 
 			var picture = pictureProvider
 				.GetPicture(hai)
-				.ApplyMatrix(SKMatrix.CreateTranslation(xPosition, 0f));
+				.ApplyMatrix(SKMatrix.CreateTranslation(xPosition, yPosition));
 
 			pictures.Add(picture);
-			currentIndex++;
+
+			indexX++;
+			if (indexX >= cardPerLine) {
+				indexX = 0;
+				indexY++;
+			}
 
 		}
 
 		if (notFound.Count != 0) {
-			properties.Content = StringTableOfGuildLocale["TestImage.HaiNotFound"]
+			properties.Content = StringTableOfGuildLocale["Command.TestImage.HaiNotFound"]
 				.Replace("{contents}", string.Join(", ", notFound.Select(name => $"'{name}'")));
 		}
 
-		using var image = Drawing.DrawAllAndEncode(pictures);
+		if (pictures.Count != 0) {
+			using var image = Drawing.DrawAllAndEncode(pictures);
+			properties.AddImageEmbed(image);
+		}
 
-		return properties
-			.AddImageEmbed(image);
+		return properties;
 
 	}
 

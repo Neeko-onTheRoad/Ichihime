@@ -1,5 +1,4 @@
 ﻿using Ichihime.Localizing;
-using Ichihime.ResourceSystem;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetCord.Hosting.Gateway;

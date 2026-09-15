@@ -35,4 +35,24 @@ public static class LinqExtensions {
 		return @default;
 	}
 
+	public static int IndexOf<T>(this IReadOnlyList<T> list, T? target) {
+		
+		for (int i = 0; i < list.Count; i++) {
+			if (list[i]?.Equals(target) ?? target is null) return i;
+		}
+
+		return -1;
+
+	}
+
+	public static int IndexOf<T>(this IReadOnlyList<T> list, Func<T, bool> predicate) {
+
+		for (int i = 0; i < list.Count; i++) {
+			if (predicate(list[i])) return i;
+		}
+
+		return -1;
+
+	}
+
 }

@@ -5,7 +5,7 @@ public sealed class Pinzuhai(int number, bool isAkadora = true) : Sūpai(number,
 	protected override string IroName => "Pin";
 	public override Hai NextHai => new Pinzuhai(Number % 9 + 1);
 	
-	public static IEnumerable<Pinzuhai> AllKindsOfPinzuhai { get; } =
+	public static IReadOnlyList<Pinzuhai> AllKindsOfPinzuhai { get; } =
 		GetAllKinds((number, isAkadora) => new Pinzuhai(number, isAkadora));
 
 }

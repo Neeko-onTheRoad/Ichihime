@@ -2,9 +2,8 @@
 
 public abstract class Fonpai : Jihai {
 
-	public static IEnumerable<Fonpai> AllKindsOfFonapi => RuntimeTypeCatcher
-		.GetDerivedConcreteTypes<Fonpai>()
-		.Select(Activator.CreateInstance)
-		.Cast<Fonpai>();
+	public static IReadOnlyList<Fonpai> AllKindsOfFonapi { get; } = [
+		new Ton(), new Nan(), new Shā(), new Pē()
+	];
 
 }
