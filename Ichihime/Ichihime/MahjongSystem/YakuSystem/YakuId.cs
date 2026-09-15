@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ichihime.Localizing;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Ichihime;
@@ -27,6 +28,9 @@ public class YakuId(SpreadsheetClient spreadsheetClient) : IReadOnlyDictionary<i
 
 	public IEnumerator<KeyValuePair<int, string>> GetEnumerator() => _dataSet.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	public string GetYakuName(int id, StringTable stringTable) =>
+		stringTable[_dataSet[id]];
 	
 	//======================================================================| Operators
 
