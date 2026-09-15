@@ -25,4 +25,5 @@ public abstract class SlashCommand(StringTables stringTables, Properties propert
 
 	}
 
+
 }

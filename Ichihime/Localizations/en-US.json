@@ -21,8 +21,8 @@
 				"hai_names": {
 					"description": "The name of hai. (split with comma)"
 				},
-				"card_per_line": {
-					"description": "Number of cards to print per line."
+				"tile_per_line": {
+					"description": "Number of tiles to print per line."
 				}
 			}
 		}

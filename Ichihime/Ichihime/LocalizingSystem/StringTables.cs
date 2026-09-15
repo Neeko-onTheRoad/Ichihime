@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿	using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Ichihime.Localizing;
@@ -13,6 +13,26 @@ public class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	public StringTables(SpreadsheetClient spreadsheetClient) {
 
+		LoadDataFromSpreadSheet(spreadsheetClient);
+		
+
+	}
+
+	//======================================================================| Methods
+
+	public IEnumerable<string> Keys => _tables.Keys;
+	public IEnumerable<StringTable> Values => _tables.Values;
+
+	public int Count => _tables.Count;
+
+	public bool ContainsKey(string key) => _tables.ContainsKey(key);
+	public bool TryGetValue(string key, [MaybeNullWhen(false)] out StringTable value) => _tables.TryGetValue(key, out value);
+	public IEnumerator<KeyValuePair<string, StringTable>> GetEnumerator() => _tables.GetEnumerator();
+
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	private void LoadDataFromSpreadSheet(SpreadsheetClient spreadsheetClient) {
+	
 		var rawList = spreadsheetClient.Read(SpreadsheetId.MainSheet, "StringTable");
 
 		var header = rawList[0];
@@ -41,18 +61,7 @@ public class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	}
 
-	//======================================================================| Methods
-
-	public IEnumerable<string> Keys => _tables.Keys;
-	public IEnumerable<StringTable> Values => _tables.Values;
-
-	public int Count => _tables.Count;
-
-	public bool ContainsKey(string key) => _tables.ContainsKey(key);
-	public bool TryGetValue(string key, [MaybeNullWhen(false)] out StringTable value) => _tables.TryGetValue(key, out value);
-	public IEnumerator<KeyValuePair<string, StringTable>> GetEnumerator() => _tables.GetEnumerator();
-
-	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+	private void 
 
 	//======================================================================| Operators
 

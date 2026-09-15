@@ -16,7 +16,10 @@ public class ImageTestSlashCommand(
 	//======================================================================| Methods
 
 	[SlashCommand("image_test", "Check the bot's image generation. (split with ',')")]
-	public InteractionMessageProperties ImageTest(string haiNames, int cardPerLine = 14) {
+	public InteractionMessageProperties ImageTest(string haiNames, int tilePerLine = 14) {
+
+		// ～させられる
+		// ～
 
 		var properties = new InteractionMessageProperties();
 		
@@ -59,7 +62,7 @@ public class ImageTestSlashCommand(
 			pictures.Add(picture);
 
 			indexX++;
-			if (indexX >= cardPerLine) {
+			if (indexX >= tilePerLine) {
 				indexX = 0;
 				indexY++;
 			}

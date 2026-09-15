@@ -27,7 +27,7 @@
 					"name": "牌の名前",
 					"description": "出力する牌の名前。（コンマで分割）"
 				},
-				"card_per_line": {
+				"tile_per_line": {
 					"name": "1行あたりの牌",
 					"description": "1行に出力する牌の数。"
 				}
