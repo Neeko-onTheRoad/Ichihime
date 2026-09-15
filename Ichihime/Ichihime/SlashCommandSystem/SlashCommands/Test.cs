@@ -5,7 +5,8 @@ namespace Ichihime.SlashCommand;
 
 public class TestCommand(
 	StringTables stringTables,
-	Properties properties
+	Properties properties,
+	YakuId yakuId
 ) : SlashCommand(stringTables, properties) {
 
 	[SlashCommand("api_test", "Description")]
@@ -39,6 +40,6 @@ public class TestCommand(
 			Card.Parse(last).First(),
 			out _
 		);
-		return string.Join('\n', a.Applied.Select(han => $"{han.Id} - {han.Han}"));
+		return string.Join('\n', a.Applied.Select(han => $"{yakuId.GetYakuName(han.Id, StringTableOfGuildLocale)} - {han.Han}"));
 	}
 }
