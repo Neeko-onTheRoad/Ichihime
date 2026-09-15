@@ -59,7 +59,7 @@ public class Body: ICardCollection {
 	}
 	
 	public override string ToString() {
-		var suffix = IsOpen ? '-' : '+';
+		var suffix = IsOpen ? '^' : '+';
 		if (IsStraight) return $"{suffix} {StandardCard} ~ {(StandardCard as NumberCard)!.Number + 2}";
 		return $"{suffix} {StandardCard} x {(IsFour ? 4 : 3)}";
 	}
