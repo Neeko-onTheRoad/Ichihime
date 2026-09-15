@@ -1,5 +1,6 @@
 {
 	"commands": {
+      "test":{ "name":"api_test", "description": "t", "parameters": {"cryHand":{"name":"cryHand", "description": "see name"}, "hand":{"name":"hand", "description": "see name"}, "dora":{"name":"dora", "description": "see name"}, "last":{"name":"last", "description": "see name"}}},
 		"ping": {
 			"name": "ピン",
 			"description": "ボットの応答を確認します。",
