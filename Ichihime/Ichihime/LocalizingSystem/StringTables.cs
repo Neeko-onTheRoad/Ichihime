@@ -61,8 +61,6 @@ public class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	}
 
-	private void 
-
 	//======================================================================| Operators
 
 	public StringTable this[string key] => _tables[key];
