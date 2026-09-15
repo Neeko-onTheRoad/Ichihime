@@ -26,7 +26,7 @@
 					"name": "패이름",
 					"description": "출력할 패의 이름. (콤마로 분할)"
 				},
-				"card_per_line": {
+				"tile_per_line": {
 					"name": "줄당패",
 					"description": "한 줄에 출력할 카드의 수."
 				}
