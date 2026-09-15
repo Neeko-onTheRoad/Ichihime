@@ -10,6 +10,7 @@ public class YakuId(SpreadsheetClient spreadsheetClient) : IReadOnlyDictionary<i
 
 	private readonly Dictionary<int, string> _dataSet = spreadsheetClient
 		.Read(SpreadsheetId.MainSheet, "Yaku")?
+		.Skip(1)
 		.Select(list => (int.Parse(list[0] as string ?? "-1"), list[1] as string))
 		.Cast<(int, string)>()
 		.ToDictionary() ?? [];
