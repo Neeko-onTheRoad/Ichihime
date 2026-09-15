@@ -50,6 +50,7 @@ public class IchihimeBot {
 		Properties = new(_spreadsheetClient);
 
 		builder.Services
+			.AddSingleton(new YakuId(_spreadsheetClient))
 			.AddSingleton(_spreadsheetClient)
 			.AddSingleton(_stringTables)
 			.AddSingleton(Properties);
