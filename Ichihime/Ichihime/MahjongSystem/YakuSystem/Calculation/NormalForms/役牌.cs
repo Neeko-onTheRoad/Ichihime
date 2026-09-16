@@ -8,7 +8,7 @@ public class 役牌: NormalForm {
             if(body.IsStraight) continue; 
             if(body.StandardCard is not LetterCard letter) continue;
             var id = letter.LetterType switch {
-                LetterType.Bloom => 10146,
+                LetterType.Bloom => 1046,
                 LetterType.Middle => 1047,
                 LetterType.White => 1017
             };
