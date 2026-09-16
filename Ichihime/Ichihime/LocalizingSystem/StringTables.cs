@@ -68,12 +68,35 @@ public partial class StringTables : IReadOnlyDictionary<string, StringTable> {
 		HashSet<string> targetKeys = [..data.Keys];
 		HashSet<string> newKeys = [];
 
+		int depth = 0;
 		while (targetKeys.Count != 0) {
-
+		
 			foreach (var key in targetKeys) {
-			
-				var matches = AngleBreakRegex().Match(data[key]).Groups;
+				
+				var matches = AngleBreakRegex().Matches(data[key]);
 
+				foreach (Match match in matches) {
+					
+					var target = match.Groups["data"].Value;
+					data[key] = data[key].Replace($"<{target}>", data[target]);
+					
+				}
+
+				if (AngleBreakRegex().IsMatch(data[key])) {
+					newKeys.Add(key);
+				}
+
+			}
+
+			targetKeys = newKeys;
+			newKeys = [];
+
+			depth++;
+
+			if (depth > 100) {
+				throw new InvalidDataException(
+					"References of string table are too deep."
+				);
 			}
 
 		}
