@@ -18,9 +18,6 @@ public class ImageTestSlashCommand(
 	[SlashCommand("image_test", "Check the bot's image generation. (split with ',')")]
 	public InteractionMessageProperties ImageTest(string haiNames, int tilePerLine = 14) {
 
-		// ～させられる
-		// ～
-
 		var properties = new InteractionMessageProperties();
 		
 		HashSet<string> notFound = [ with(StringComparer.OrdinalIgnoreCase) ];
@@ -32,9 +29,13 @@ public class ImageTestSlashCommand(
 		else foreach (var name in haiNames.Split(',').Select(name => name.Trim())) {
 		
 			var hai = Hai.AllKinds
-				.FirstOrDefault(hai => hai
-					.DisplayName(StringTableOfUserLocale)
-					.Equals(name, StringComparison.OrdinalIgnoreCase)
+				.FirstOrDefault(hai => 
+					hai
+						.DisplayName(StringTableOfUserLocale)
+						.Equals(name, StringComparison.OrdinalIgnoreCase) ||
+					hai
+						.DisplayName(StringTableOfGuildLocale)
+						.Equals(name, StringComparison.OrdinalIgnoreCase)
 				);
 
 			if (hai is null) {

@@ -1,9 +1,10 @@
-﻿	using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Ichihime.Localizing;
 
-public class StringTables : IReadOnlyDictionary<string, StringTable> {
+public partial class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	//======================================================================| Constructors
 
@@ -13,8 +14,33 @@ public class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	public StringTables(SpreadsheetClient spreadsheetClient) {
 
-		LoadDataFromSpreadSheet(spreadsheetClient);
-		
+		var rawList = spreadsheetClient.Read(SpreadsheetId.MainSheet, "StringTable");
+
+		var header = rawList[0];
+		var rows = rawList.Skip(1);
+
+		Console.WriteLine(
+			$"{header.Count - 1} of Locale found: [{string.Join(", ", header.Skip(1))}]"
+		);
+
+		for (int i = 1; i < header.Count; i++) {
+			
+			if (header[i] is not string locale) continue;
+
+			Console.WriteLine($"Loading locale data: {locale}");
+
+			var data = rows
+				.Select(row => (
+					Key: row[0] as string ?? "", 
+					Value: row[i] as string ?? ""
+				))
+				.Where(pair => !string.IsNullOrEmpty(pair.Key))
+				.ToDictionary();
+
+			LoadReference(data);
+			_tables[locale] = new(data);
+
+		}
 
 	}
 
@@ -31,38 +57,30 @@ public class StringTables : IReadOnlyDictionary<string, StringTable> {
 
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-	private void LoadDataFromSpreadSheet(SpreadsheetClient spreadsheetClient) {
-	
-		var rawList = spreadsheetClient.Read(SpreadsheetId.MainSheet, "StringTable");
-
-		var header = rawList[0];
-		var rows = rawList.Skip(1);
-
-		Console.WriteLine(
-			$"{header.Count - 1} of Locale found: [{string.Join(", ", header.Skip(1))}]"
-		);
-
-		for (int i = 1; i < header.Count; i++) {
-			
-			if (header[i] is not string locale) continue;
-
-			Console.WriteLine($"Loading locale data: {locale}");
-
-			_tables[locale] = new(rows
-				.Select(row => (
-					Key: row[0] as string ?? "", 
-					Value: row[i] as string ?? ""
-				))
-				.Where(pair => !string.IsNullOrEmpty(pair.Key))
-				.ToDictionary()
-			);
-
-		}
-
-	}
-
 	//======================================================================| Operators
 
 	public StringTable this[string key] => _tables[key];
+
+	//======================================================================| Methods
+
+	private static void LoadReference(Dictionary<string, string> data) {
+		
+		HashSet<string> targetKeys = [..data.Keys];
+		HashSet<string> newKeys = [];
+
+		while (targetKeys.Count != 0) {
+
+			foreach (var key in targetKeys) {
+			
+				var matches = AngleBreakRegex().Match(data[key]).Groups;
+
+			}
+
+		}
+				
+	}
+
+	[GeneratedRegex(@"<(?<data>.+?)>")]
+	private static partial Regex AngleBreakRegex();
 
 }
