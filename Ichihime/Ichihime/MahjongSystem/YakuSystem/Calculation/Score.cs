@@ -12,6 +12,10 @@ public class Score(bool pContainCount) {
 	public bool IsYakuman => _yakumans.Count > 0;
 	public bool IsValid => _hans.Count > 0 || _yakumans.Count > 0;
 
+	public int Han => IsYakuman
+		? _yakumans.Aggregate(0, (han, applied) => han + applied.Han)
+		: _hans.Aggregate(0, (han, applied) => han + applied.Han);
+
 	public readonly static IReadOnlyList<(int, int)> ValueList = new List<(int, int)>() {
 		(5, 8000),
 		(6, 12000),
@@ -27,14 +31,14 @@ public class Score(bool pContainCount) {
 
 	public DistributeScore GetScore(HandInfo pHandInfo) {
 		if (IsYakuman) {
-			var point = _yakumans.Aggregate(0, (han, applied) => han + applied.Han) * ValueList[^1].Item2;
+			var point = Han * ValueList[^1].Item2;
 			if (pHandInfo.IsParent) {
 				return new(0, point / 2);
 			}
 			return new(point / 2, point / 4);
 		}
 
-		var han = _hans.Aggregate(0, (han, appli) => han + appli.Han);
+		var han = Han;
 		var defaultScore = 960;
 		var term = 32;
 		if (ValueList[0].Item1 <= han) {
