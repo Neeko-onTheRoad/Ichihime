@@ -42,4 +42,8 @@
 	  <Folder Include="Ichihime\LocalizingSystem\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\MahJongAutoCalculator\MahJongAutoCalculator.csproj" />
+	</ItemGroup>
+
 </Project>

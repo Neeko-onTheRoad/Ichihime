@@ -11,7 +11,7 @@ public class TestCommand(
 ) : SlashCommand(stringTables, properties) {
 
 	[SlashCommand("api_test", "Description")]
-	public string apiTest(
+	public string ApiTest(
 		string cryHand = "",
 		string hand = "",
 		string dora = "",
